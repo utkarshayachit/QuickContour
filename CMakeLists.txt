@@ -32,5 +32,6 @@ build_paraview_client(quickcontour
   VERSION_PATCH 0
   PVMAIN_WINDOW qcMainWindow
   PVMAIN_WINDOW_INCLUDE qcMainWindow.h
+  SPLASH_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/SplashScreen.png"
   SOURCES ${SOURCE_FILES} ${MOC_SRCS} ${UI_BUILT_SOURCES} ${RCS_BUILT_SOURCES}
 )

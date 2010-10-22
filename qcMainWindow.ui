@@ -15,6 +15,12 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>5</number>
+    </property>
     <item row="0" column="0">
      <widget class="QFrame" name="renderFrame1">
       <property name="frameShape">
@@ -61,7 +67,13 @@
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -112,7 +124,7 @@
   <customwidget>
    <class>pqDisplayColorWidget</class>
    <extends>QWidget</extends>
-   <header>pqDisplayColorWidget</header>
+   <header>pqDisplayColorWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

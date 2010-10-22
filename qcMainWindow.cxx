@@ -30,17 +30,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ========================================================================*/
 #include "qcMainWindow.h"
-#include "ui_QCMainWindow.h"
+#include "ui_qcMainWindow.h"
 
--------------------------------------------------------------------------------
+#include "pqActiveObjects.h"
+#include "pqApplicationCore.h"
+#include "pqLoadDataReaction.h"
+#include "pqObjectBuilder.h"
+#include "pqParaViewBehaviors.h"
+#include "pqParaViewMenuBuilders.h"
+#include "pqRenderView.h"
+#include "pqServerConnectReaction.h"
+#include "pqServer.h"
+
+//-----------------------------------------------------------------------------
 qcMainWindow::qcMainWindow(QWidget *_parent, Qt::WindowFlags _flags):
   Superclass(_parent, _flags)
 {
-  Ui::qcMainWindow ui;
+  Ui::MainWindow ui;
   ui.setupUi(this);
+
+  pqParaViewMenuBuilders::buildHelpMenu(*ui.menu_Help);
+  new pqParaViewBehaviors(this, this);
+
+  new pqServerConnectReaction(ui.actionConnect);
+  new pqLoadDataReaction(ui.actionLoad);
+
+  pqRenderView* view1 = this->createRenderView(ui.renderFrame1);
+  pqRenderView* view2 = this->createRenderView(ui.renderFrame2);
 }
 
--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 qcMainWindow::~qcMainWindow()
 {
+}
+
+//-----------------------------------------------------------------------------
+pqRenderView* qcMainWindow::createRenderView(QWidget* widget)
+{
+  QHBoxLayout *hbox = new QHBoxLayout(widget);
+  hbox->setMargin(0);
+  pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
+  pqRenderView *view = qobject_cast<pqRenderView*>(
+    builder->createView(pqRenderView::renderViewType(),
+      pqActiveObjects::instance().activeServer()));
+  hbox->addWidget(view->getWidget());
+  return view;
 }

@@ -33,6 +33,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __QCMainWindow_h
 #include <QMainWindow>
 
+class pqRenderView;
+
 /// qcMainWindow for our application.
 class qcMainWindow : public QMainWindow
 {
@@ -42,6 +44,9 @@ public:
   qcMainWindow(QWidget *parent = 0, Qt::WindowFlags flags=0);
   ~qcMainWindow();
 
+protected:
+  /// Creates a new render view and places it in the container.
+  pqRenderView* createRenderView(QWidget* container);
 private:
   Q_DISABLE_COPY(qcMainWindow)
 };
