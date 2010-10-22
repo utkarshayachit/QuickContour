@@ -91,6 +91,10 @@
    </attribute>
    <addaction name="actionLoad"/>
    <addaction name="actionConnect"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdd"/>
+   <addaction name="actionClear"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionLoad">
    <property name="text">
@@ -117,6 +121,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="actionClear">
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionAdd">
+   <property name="text">
+    <string>Add</string>
    </property>
   </action>
  </widget>

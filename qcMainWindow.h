@@ -32,8 +32,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __QCMainWindow_h
 #define __QCMainWindow_h
 #include <QMainWindow>
+#include <QPointer>
 
 class pqRenderView;
+class pqPipelineSource;
+class pqPipelineRepresentation;
+class pqRubberBandHelper;
+class pqServer;
 
 /// qcMainWindow for our application.
 class qcMainWindow : public QMainWindow
@@ -44,11 +49,44 @@ public:
   qcMainWindow(QWidget *parent = 0, Qt::WindowFlags flags=0);
   ~qcMainWindow();
 
+protected slots:
+  void initialize(pqServer*);
+  void cleanup();
+
+  /// called when a new dataset is loaded.
+  void onDataLoaded(pqPipelineSource*);
+
+  /// called when the user picks a new array to contour by.
+  /// We update the properties on the contour filter as well as
+  /// update the coloring of the slice.
+  void contourByChanged();
+
+  void endSelection();
+
+  /// called to clear all contours.
+  void clearContours();
+
 protected:
   /// Creates a new render view and places it in the container.
   pqRenderView* createRenderView(QWidget* container);
+
+  QPointer<pqRenderView> View1;
+  QPointer<pqRenderView> View2;
+  QPointer<pqPipelineSource> ActiveSource;
+  QPointer<pqPipelineSource> Slice;
+  QPointer<pqPipelineSource> Contour;
+  QPointer<pqPipelineSource> SliceContour;
+
+  QPointer<pqPipelineRepresentation> ActiveSourceRepr;
+  QPointer<pqPipelineRepresentation> SliceRepr;
+  QPointer<pqPipelineRepresentation> ContourRepr;
+  QPointer<pqPipelineRepresentation> SliceContourRepr;
+
+  pqRubberBandHelper* SelectionHelper;
 private:
   Q_DISABLE_COPY(qcMainWindow)
+  class pqInternals;
+  pqInternals* Ui;
 };
 
 #endif
